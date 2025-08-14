@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Entrenador Virtual</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <span class="emoji" aria-hidden="true">🏋️</span>
+      <h1>Entrenador Virtual</h1>
+    </div>
+    <div class="today" id="todayLabel"></div>
+  </header>
+
+  <main class="container">
+    <section class="card intro">
+      <p>Selecciona tu objetivo para ver ejercicios, dieta, hidratación, recordatorios y motivación.</p>
+      <div class="goal-buttons">
+        <button class="btn primary" onclick="setGoal('ganar')">Ganar Peso</button>
+        <button class="btn ghost" onclick="setGoal('bajar')">Bajar Peso</button>
+      </div>
+    </section>
+
+    <section class="grid">
+      <!-- Ejercicios -->
+      <section class="card" id="ejerciciosCard">
+        <div class="card-head">
+          <h2>📋 Tu rutina (5 ejercicios)</h2>
+          <div class="actions">
+            <button class="chip" onclick="shuffleExercises()">🔀 Mezclar</button>
+          </div>
+        </div>
+        <ul class="list" id="exerciseList"></ul>
+      </section>
+
+      <!-- Plan de dieta -->
+      <section class="card">
+        <div class="card-head">
+          <h2>🥗 Plan de dieta</h2>
+          <button class="btn small" onclick="planificarDieta()">Planificar dieta</button>
+        </div>
+        <div id="mealPlan"></div>
+        <div class="total-kcal" id="totalKcal"></div>
+      </section>
+
+      <!-- Hidratación -->
+      <section class="card">
+        <div class="card-head">
+          <h2>💧 Hidratación</h2>
+        </div>
+        <div class="row">
+          <label class="field">
+            <span>Peso (kg)</span>
+            <input type="number" id="pesoKg" min="20" max="250" placeholder="Ej. 70" oninput="recomendarAgua()">
+          </label>
+          <label class="field">
+            <span>Meta diaria (ml)</span>
+            <input type="number" id="metaAgua" min="500" step="50" placeholder="Ej. 2400" oninput="guardarMetaAgua()">
+          </label>
+        </div>
+        <div class="progress">
+          <div class="bar" id="aguaBar"></div>
+        </div>
+        <p id="aguaLabel">0 / 0 ml</p>
+        <div class="row">
+          <button class="btn" onclick="sumarAgua(250)">+250 ml</button>
+          <button class="btn" onclick="sumarAgua(500)">+500 ml</button>
+          <button class="btn ghost" onclick="resetAgua()">Reiniciar</button>
+        </div>
+      </section>
+
+      <!-- Recordatorio -->
+      <section class="card">
+        <div class="card-head">
+          <h2>⏰ Recordatorio Gym</h2>
+        </div>
+        <div class="row">
+          <label class="field">
+            <span>Hora (24h)</span>
+            <input type="time" id="horaGym">
+          </label>
+          <label class="field">
+            <span>Mensaje</span>
+            <input type="text" id="msgGym" placeholder="¡Hora de entrenar!">
+          </label>
+        </div>
+        <div class="row">
+          <button class="btn" onclick="programarRecordatorio()">Programar hoy</button>
+          <button class="btn ghost" onclick="cancelarRecordatorio()">Cancelar</button>
+        </div>
+        <p id="recordatorioEstado" class="muted"></p>
+      </section>
+
+      <!-- Cronómetro -->
+      <section class="card">
+        <div class="card-head">
+          <h2>⏱️ Cronómetro</h2>
+        </div>
+        <div class="chrono" id="chronoDisplay">00:00:00</div>
+        <div class="row">
+          <button class="btn" onclick="startChrono()">Iniciar</button>
+          <button class="btn" onclick="pauseChrono()">Pausar</button>
+          <button class="btn ghost" onclick="resetChrono()">Reiniciar</button>
+        </div>
+      </section>
+
+      <!-- Motivación -->
+      <section class="card">
+        <div class="card-head">
+          <h2>💬 Frase motivadora</h2>
+          <button class="btn small" onclick="newQuote()">Nueva frase</button>
+        </div>
+        <p id="quote" class="quote"></p>
+        <p class="muted" id="quoteLeft"></p>
+      </section>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    Hecho con 💜 para tus metas fitness
+  </footer>
+
+  <audio id="ding" preload="auto">
+    <source src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" type="audio/ogg">
+  </audio>
+
+  <script src="script.js"></script>
+</body>
+</html>
